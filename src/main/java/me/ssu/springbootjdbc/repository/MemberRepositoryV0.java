@@ -13,6 +13,27 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class MemberRepositoryV0 {
 
+	public void delete(String memberId) {
+		String sql = "delete from member where member_id=?";
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = getConnection();
+
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, memberId);
+
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			log.error("db error", e);
+		} finally {
+			close(connection, preparedStatement, null);
+		}
+	}
+
 	public void update(String memberId, int money) throws SQLException {
 		String sql = "update member set money=? where member_id=?";
 
