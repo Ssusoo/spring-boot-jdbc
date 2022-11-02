@@ -23,7 +23,7 @@ public class MemberRepositoryV0 {
 			connection = getConnection();
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, money);
-			preparedStatement.setInt(2, memberId);
+			preparedStatement.setString(2, memberId);
 
 			int resultSize = preparedStatement.executeUpdate();
 
