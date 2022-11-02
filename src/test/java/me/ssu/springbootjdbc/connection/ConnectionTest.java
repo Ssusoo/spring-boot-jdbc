@@ -1,6 +1,6 @@
 package me.ssu.springbootjdbc.connection;
 
-import com.zaxxer.hikari.util.DriverDataSource;
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +15,21 @@ import static me.ssu.springbootjdbc.connection.ConnectionConst.*;
 
 @Slf4j
 public class ConnectionTest {
+
+	@Test
+	@DisplayName("DataSource Connection Pool")
+	void dataSourceConnectionPool() throws SQLException, InterruptedException {
+		// 커넥션 풀링
+		HikariDataSource hikariDataSource = new HikariDataSource();
+		hikariDataSource.setJdbcUrl(URL);
+		hikariDataSource.setUsername(USERNAME);
+		hikariDataSource.setPassword(PASSWORD);
+		hikariDataSource.getMaximumPoolSize();
+		hikariDataSource.setPoolName("MyPool");
+
+		useDataSource(hikariDataSource);
+		Thread.sleep(1000);         // 커넥션 풀에서 커넥션 생성 시간 대기
+	}
 
 	@Test
 	@DisplayName("DriverManager를 통해 커넥션 획득하기")
