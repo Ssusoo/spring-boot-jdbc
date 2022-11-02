@@ -20,10 +20,14 @@ public class MemberRepositoryV0 {
 		PreparedStatement preparedStatement = null;
 
 		try {
+			// TODO 1) 커넥션 연결
 			connection = getConnection();
+
+			// TODO 2) Connection을 통해 SQL 전달
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, money);
 			preparedStatement.setString(2, memberId);
+
 
 			int resultSize = preparedStatement.executeUpdate();
 
