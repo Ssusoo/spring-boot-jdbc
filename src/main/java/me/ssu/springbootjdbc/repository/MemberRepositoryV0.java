@@ -13,6 +13,29 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class MemberRepositoryV0 {
 
+	public void update(String memberId, int money) throws SQLException {
+		String sql = "update member set money=? where member_id=?";
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, money);
+			preparedStatement.setInt(2, memberId);
+
+			int resultSize = preparedStatement.executeUpdate();
+
+			log.info("resultSize={}", resultSize);
+		} catch (SQLException e) {
+			log.error("db error", e);
+			throw e;
+		} finally {
+			close(connection, preparedStatement, null);
+		}
+	}
+
 	public Member findById(String memberId) throws SQLException {
 		String sql = "select * from member where member_id = ?";
 
