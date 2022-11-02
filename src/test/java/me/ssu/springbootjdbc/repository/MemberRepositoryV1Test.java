@@ -1,5 +1,6 @@
 package me.ssu.springbootjdbc.repository;
 
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import me.ssu.springbootjdbc.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,16 +24,24 @@ class MemberRepositoryV1Test {
 	@BeforeEach
 	void beforeEach() {
 		// 기본 DriverManager - 항상 새로운 커넥션 획득
-		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
-		repository = new MemberRepositoryV1(driverManagerDataSource);
+		//	DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
+		//	repository = new MemberRepositoryV1(driverManagerDataSource);
+
+		// 커넥션 풀링
+		HikariDataSource hikariDataSource = new HikariDataSource();
+		hikariDataSource.setJdbcUrl(URL);
+		hikariDataSource.setUsername(USERNAME);
+		hikariDataSource.setPassword(PASSWORD);
+
+		repository = new MemberRepositoryV1(hikariDataSource);
 	}
 
 	@Test
 	@DisplayName("회원 데이터 저장")
-	void crud() throws SQLException {
+	void crud() throws SQLException, InterruptedException {
 
 		// save
-		Member member = new Member("memberV5", 10000);
+		Member member = new Member("memberV6", 10000);
 		repository.save(member);
 
 		// delete from member;
@@ -52,5 +61,7 @@ class MemberRepositoryV1Test {
 		// 삭제된 데이터이기 때문에 NoSuchElementException로 확인 가능
 		assertThatThrownBy(() -> repository.findById(member.getMemberId()))
 				.isInstanceOf(NoSuchElementException.class);
+
+		Thread.sleep(1000);
 	}
 }
