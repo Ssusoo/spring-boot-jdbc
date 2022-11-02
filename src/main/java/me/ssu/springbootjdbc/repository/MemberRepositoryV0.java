@@ -28,7 +28,7 @@ public class MemberRepositoryV0 {
 			preparedStatement.setInt(1, money);
 			preparedStatement.setString(2, memberId);
 
-
+			// TODO 3) SQL 실행(업데이트할 때 executeUpdate())
 			int resultSize = preparedStatement.executeUpdate();
 
 			log.info("resultSize={}", resultSize);
