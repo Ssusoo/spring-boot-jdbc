@@ -95,6 +95,45 @@ public class MemberRepositoryV2 {
 		}
 	}
 
+	public Member findById(String memberId) throws SQLException {
+		String sql = "select * from member where member_id = ?";
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			// TODO 1) 커넥션 연결
+			connection = getConnection();
+
+			// TODO 2) Connection을 통해 SQL 전달
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, memberId);
+
+			// TODO 3) SQL 실행(조회할 때 executeQuery(), 결과를 ResultSet에 담아서 반환함)
+			resultSet = preparedStatement.executeQuery();
+
+			// TODO 4) rs.next() : 이것을 호출하면 커서가 다음으로 이동한다
+			// rs.next() 의 결과가 true 면 커서의 이동 결과 데이터가 있다는 뜻이다.
+			// rs.next() 의 결과가 false 면 더이상 커서가 가리키는 데이터가 없다는 뜻이다.
+			if (resultSet.next()) {
+				Member member = new Member();
+				member.setMemberId(resultSet.getString("member_id"));
+				member.setMoney(resultSet.getInt("money"));
+
+				return member;
+			} else {
+				throw new NoSuchElementException("member not found memberId=" + memberId);
+			}
+		} catch (SQLException e) {
+			log.error("db error", e);
+			throw e;
+		} finally {
+			close(connection, preparedStatement, resultSet);
+		}
+
+	}
+
 	// TODO 1) 주입
 	private final DataSource dataSource;
 

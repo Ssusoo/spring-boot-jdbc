@@ -3,7 +3,6 @@ package me.ssu.springbootjdbc.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ssu.springbootjdbc.domain.Member;
-import me.ssu.springbootjdbc.repository.MemberRepositoryV1;
 import me.ssu.springbootjdbc.repository.MemberRepositoryV2;
 
 import javax.sql.DataSource;
@@ -17,8 +16,8 @@ import java.sql.SQLException;
 @Slf4j
 public class MemberServiceV2 {
 
-	private final MemberRepositoryV2 memberRepositoryV2;
 	private final DataSource dataSource;
+	private final MemberRepositoryV2 memberRepositoryV2;
 
 	public void accountTransfer(String fromId, String toId, int money) throws SQLException {
 
