@@ -63,7 +63,8 @@ class MemberServiceV2Test {
 		Member findMemberA = memberRepositoryV2.findById(memberA.getMemberId());    // 8000
 		Member findMemberEx = memberRepositoryV2.findById(memberEx.getMemberId());    // 10000
 
-		assertThat(findMemberA.getMoney()).isEqualTo(8000);
+		assertThat(findMemberA.getMoney()).isEqualTo(10000);    // 출금을 통해 8000원이었는데, 예외 발생 후
+																// 롤백이 됐기에 10000원이 됨.
 		assertThat(findMemberEx.getMoney()).isEqualTo(10000);   // 입금되기 전에 예외가 터졌기에 출금처리만 된 상황
 	}
 
