@@ -1,15 +1,20 @@
 package me.ssu.springbootjdbc.service;
 
+import lombok.extern.slf4j.Slf4j;
 import me.ssu.springbootjdbc.domain.Member;
 import me.ssu.springbootjdbc.repository.MemberRepositoryV3;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
 
 import static me.ssu.springbootjdbc.connection.ConnectionConst.*;
@@ -17,24 +22,46 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * 트랜잭션 - 트랜잭션 템플릿
+ * 트랜잭션 - @Transactional AOP 적용
  */
+@Slf4j
+@SpringBootTest
 class MemberServiceV3_3Test {
 
 	public static final String MEMBER_A = "memberA";
 	public static final String MEMBER_B = "memberB";
 	public static final String MEMBER_EX = "ex";
 
+	@Autowired
 	private MemberRepositoryV3 memberRepository;
-	private MemberServiceV3_2 memberService;
 
-	// TODO 각 테스트가 실행 직전에 호출됨.
-	@BeforeEach
-	void before() {
-		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
-		memberRepository = new MemberRepositoryV3(driverManagerDataSource);
-		PlatformTransactionManager platformTransactionManager = new DataSourceTransactionManager(driverManagerDataSource);
-		memberService = new MemberServiceV3_2(platformTransactionManager, memberRepository);
+	@Autowired
+	private MemberServiceV3_3 memberService;
+
+	@TestConfiguration
+	static class TestConfig {
+		@Bean
+		DataSource dataSource() {
+			return new DriverManagerDataSource(URL, USERNAME, PASSWORD);
+		}
+
+		// 트랜잭션 프록시 역시 트랜잭션 매니저를 불러서 써야하기에
+		@Bean
+		PlatformTransactionManager platformTransactionManager() {
+			return new DataSourceTransactionManager(dataSource());
+		}
+
+		// 리포지토리, DataSource의 정보를 가져온다.
+		@Bean
+		MemberRepositoryV3 memberRepositoryV3() {
+			return new MemberRepositoryV3(dataSource());
+		}
+
+		// 서비스 계층, 리포지토리의 정보를 가져와서 처리한다.
+		@Bean
+		MemberServiceV3_3 memberServiceV3_3() {
+			return new MemberServiceV3_3(memberRepositoryV3());
+		}
 	}
 
 	// TODO 각 테스트가 실행 후 호출 됨.
