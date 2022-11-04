@@ -26,10 +26,10 @@ public class MemberRepositoryV3 {
 
 	private void close(Connection connection, Statement statement, ResultSet resultSet) {
 		JdbcUtils.closeResultSet(resultSet);
-		JdbcUtils.closeConnection(connection);
+		JdbcUtils.closeStatement(statement);
 		// TODO 주의! 트랜잭션 동기화를 사용하려면 DataSourceUtils를 사용해야 한다.
 		DataSourceUtils.releaseConnection(connection, dataSource);
-		// JdbcUtils.closeStatement(statement);
+		// JdbcUtils.closeConnection(connection);
 	}
 
 	// TODO 1) 주입
