@@ -1,12 +1,9 @@
 package me.ssu.springbootjdbc.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ssu.springbootjdbc.domain.Member;
 import me.ssu.springbootjdbc.repository.MemberRepositoryV3;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.sql.SQLException;
