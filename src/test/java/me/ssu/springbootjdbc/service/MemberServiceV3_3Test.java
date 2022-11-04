@@ -6,12 +6,14 @@ import me.ssu.springbootjdbc.repository.MemberRepositoryV3;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.test.util.AopTestUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -37,6 +39,17 @@ class MemberServiceV3_3Test {
 
 	@Autowired
 	private MemberServiceV3_3 memberService;
+
+	@Test
+	@DisplayName("AOP 프록시 적용 확인")
+	void AopCheck() {
+		log.info("memberService class={}", memberService.getClass());
+		log.info("memberRepository class={}", memberRepository.getClass());
+		// 트랜잭션 AOP 적용 확인 유무
+		assertThat(AopUtils.isAopProxy(memberService)).isTrue();
+		// 실패시 정상 롤백
+		assertThat(AopUtils.isAopProxy(memberRepository)).isFalse();
+	}
 
 	@TestConfiguration
 	static class TestConfig {
