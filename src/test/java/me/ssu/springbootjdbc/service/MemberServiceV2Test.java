@@ -1,7 +1,6 @@
 package me.ssu.springbootjdbc.service;
 
 import me.ssu.springbootjdbc.domain.Member;
-import me.ssu.springbootjdbc.repository.MemberRepositoryV1;
 import me.ssu.springbootjdbc.repository.MemberRepositoryV2;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
