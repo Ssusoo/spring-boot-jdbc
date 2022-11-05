@@ -6,7 +6,6 @@ import me.ssu.springbootjdbc.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
