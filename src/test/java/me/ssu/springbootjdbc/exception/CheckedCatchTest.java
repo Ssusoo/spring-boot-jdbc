@@ -1,12 +1,14 @@
 package me.ssu.springbootjdbc.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
 public class CheckedCatchTest {
 
 	@Test
+	@DisplayName("예외를 잡아서 처리하는 코드")
 	void checked_catch() {
 		Service service = new Service();
 		service.callCatch();
