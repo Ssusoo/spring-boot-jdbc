@@ -17,7 +17,7 @@ public class MemberServiceV3_2 {
 	private final TransactionTemplate transactionTemplate;
 	private final MemberRepositoryV3 memberRepositoryV3;
 
-	// TODO 1) TransactionTemplate 대신 PlatformTransactionManager을 주입받는다.
+	// TransactionTemplate 대신 PlatformTransactionManager을 주입받는다.
 	public MemberServiceV3_2(PlatformTransactionManager platformTransactionManager, MemberRepositoryV3 memberRepositoryV3) {
 		// TransactionTemplate 클래스이기에 유연성이 없어 PlatformTransactionManager로 사용
 		this.transactionTemplate = new TransactionTemplate(platformTransactionManager);
