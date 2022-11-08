@@ -3,7 +3,6 @@ package me.ssu.springbootjdbc.service;
 import lombok.extern.slf4j.Slf4j;
 import me.ssu.springbootjdbc.domain.Member;
 import me.ssu.springbootjdbc.repository.MemberRepository;
-import me.ssu.springbootjdbc.repository.MemberRepositoryV4_1;
 import me.ssu.springbootjdbc.repository.MemberRepositoryV4_2;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
