@@ -47,6 +47,23 @@ public class UnCheckedAppTest {
 		}
 	}
 
+	static class Repository {
+		public void call() {
+			try {
+				// SQL 호출
+				runSQL();
+			} catch (SQLException e) {
+				// SQLException을 RuntimeSQLException으로 변경해서 던짐
+				// 예외를 던질 때 항상 기존 예외를 갖고 있어야 된다.
+				throw new RuntimeSQLException(e);
+			}
+		}
+		// SQL 실행
+		private void runSQL() throws SQLException {
+			throw new SQLException("ex");
+		}
+	}
+
 	/**
 	 * SQLException
 	 */
@@ -69,23 +86,6 @@ public class UnCheckedAppTest {
 	static class NetworkClient {
 		public void call() {
 			throw new RuntimeConnectException("연결 실패");
-		}
-	}
-
-	static class Repository {
-		public void call() {
-			try {
-				// SQL 호출
-				runSQL();
-			} catch (SQLException e) {
-				// SQLException을 RuntimeSQLException으로 변경해서 던짐
-				// 예외를 던질 때 항상 기존 예외를 갖고 있어야 된다.
-				throw new RuntimeSQLException(e);
-			}
-		}
-		// SQL 실행
-		private void runSQL() throws SQLException {
-			throw new SQLException("ex");
 		}
 	}
 }
