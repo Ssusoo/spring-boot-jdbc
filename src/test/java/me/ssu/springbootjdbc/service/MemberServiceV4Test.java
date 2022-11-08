@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.ssu.springbootjdbc.domain.Member;
 import me.ssu.springbootjdbc.repository.MemberRepository;
 import me.ssu.springbootjdbc.repository.MemberRepositoryV4_1;
+import me.ssu.springbootjdbc.repository.MemberRepositoryV4_2;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,7 +62,8 @@ class MemberServiceV4Test {
 		// 리포지토리, DataSource의 정보를 가져온다.
 		@Bean
 		MemberRepository memberRepository() {
-			return new MemberRepositoryV4_1(dataSource);
+			//return new MemberRepositoryV4_1(dataSource); //단순 예외 변환
+			return new MemberRepositoryV4_2(dataSource); //스프링 예외 변환
 		}
 
 		// 서비스 계층, 리포지토리의 정보를 가져와서 처리한다.
