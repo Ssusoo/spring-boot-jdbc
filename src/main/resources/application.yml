@@ -1,0 +1,28 @@
+spring:
+  profiles:
+  active: local                                       # email log
+  datasource:                                         # db datasource
+    url: jdbc:h2:tcp://localhost/~/test
+    username: sa
+    password:
+  jpa:                                                # db initialization
+    hibernate:
+      ddl-auto: create-drop
+      generate-ddl: false                             # create true
+      show-sql: true                                  # sql log
+    properties:
+      hibernate:
+        format_sql: true                              #sql query formatting
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor: trace                         # sql value log
+      springframework:
+        security: DeBug                             # spring security
+
+external-api:
+  push: ''
